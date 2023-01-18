@@ -5,9 +5,15 @@
       <v-toolbar-title>Matn Social</v-toolbar-title>
 
       <v-spacer></v-spacer>
-      <nav>
-        <router-link to="/">Home</router-link> |
-        <router-link to="/about">About</router-link>
+      <nav class="d-flex" style="gap: 10px">
+        <router-link to="/">Home</router-link>
+        <router-link to="/login" v-if="!isAuthorized">Sign in</router-link>
+        <router-link to="/editor" v-if="isAuthorized">New Article</router-link>
+        <router-link to="/settings" v-if="isAuthorized">Settings</router-link>
+        <router-link to="/register" v-if="!isAuthorized">Sign up</router-link>
+        <router-link :to="`/@${user?.username}`" v-if="isAuthorized">{{
+          user?.username
+        }}</router-link>
       </nav>
       <v-btn icon>
         <v-icon>mdi-export</v-icon>
@@ -15,8 +21,21 @@
     </v-toolbar>
   </div>
   <router-view />
+  <v-snackbar v-model="snackbar.isOpen" :timeout="snackbar.timeout">
+    {{ snackbar.text }}
+    <template v-slot:actions>
+      <v-btn color="blue" variant="text" @click="closeSnackbar"> Close </v-btn>
+    </template>
+  </v-snackbar>
 </template>
-
+<script setup lang="ts">
+import { storeToRefs } from "pinia";
+import { useSnackbarStore } from "@/stores/snackbar";
+import { useUserStore } from "@/stores/user";
+const { snackbar } = storeToRefs(useSnackbarStore());
+const { isAuthorized, user } = storeToRefs(useUserStore());
+const { closeSnackbar } = useSnackbarStore();
+</script>
 <style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
