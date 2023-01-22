@@ -10,11 +10,11 @@ authAxios.interceptors.request.use((config: any) => {
   if (localStorage.getItem("user")) {
     try {
       const user = JSON.parse(localStorage.getItem("user") ?? "");
-      config.headers.Authorization = `Token ${user.token}`;
+      config.headers.Authorization = `Bearer ${user.token}`;
     } catch (e) {
       console.log(e);
     }
-    return config;
   }
+  return config;
 });
 export default authAxios;

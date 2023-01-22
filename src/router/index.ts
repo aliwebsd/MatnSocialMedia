@@ -2,6 +2,9 @@ import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import SignUp from "../views/SignUpView.vue";
 import SignIn from "../views/SignInView.vue";
+import ArticleForm from "../views/ArticleForm.vue";
+import ArticleSingle from "../views/ArticleDetails.vue";
+import ProfileView from "../views/ProfileView.vue";
 import NotFound from "../views/NotFoundView.vue";
 
 const routes: Array<RouteRecordRaw> = [
@@ -28,6 +31,26 @@ const routes: Array<RouteRecordRaw> = [
     path: "/login",
     name: "SignIn",
     component: SignIn,
+  },
+  {
+    path: "/article/create",
+    name: "ArticleForm",
+    component: ArticleForm,
+  },
+  {
+    path: "/article/:slug/edit",
+    name: "ArticleForm",
+    component: ArticleForm,
+  },
+  {
+    path: "/article/:slug",
+    name: "ArticleSingle",
+    component: ArticleSingle,
+  },
+  {
+    path: "/@:username",
+    name: "Profile",
+    component: ProfileView,
   },
   {
     path: "/:pathMatch(.*)*",

@@ -25,3 +25,19 @@ export interface Article {
   favoritesCount: number;
   author: Profile;
 }
+export interface ArticleForm {
+  title: string;
+  description: string;
+  body: string;
+  tagList: string[];
+}
+
+export interface Comment {
+  id: number;
+  /** @format date-time */
+  createdAt: string;
+  /** @format date-time */
+  updatedAt: string;
+  body: string;
+  author: Profile;
+}

@@ -41,7 +41,7 @@ import { useUserStore } from "@/stores/user";
 const { login } = useUserStore();
 const valid = ref(false);
 const user = reactive({
-  email: "",
+  title: "",
   password: "",
 });
 const errors = ref();

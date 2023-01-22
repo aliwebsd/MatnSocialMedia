@@ -1,14 +1,14 @@
 <template>
-  <v-container fluid>
-    <v-row no-gutters>
-      <v-col cols="3"> Right Sidebar </v-col>
+  <v-container>
+    <v-row no-gutters class="gap-4">
       <v-col>
-        <ArticleView />
+        <ArticleTabs />
       </v-col>
-      <v-col cols="3"> Left Sidebar </v-col>
+      <v-col cols="3"> <TagList /> </v-col>
     </v-row>
   </v-container>
 </template>
 <script setup lang="ts">
-import ArticleView from "@/components/ArticleTabs.vue";
+import ArticleTabs from "@/components/ArticleTabs.vue";
+import TagList from "@/components/TagList.vue";
 </script>

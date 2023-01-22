@@ -2,28 +2,40 @@ import { defineStore } from "pinia";
 import ArticleDataService from "../services/article";
 import { ref } from "vue";
 import { Article } from "@/types";
-// import { useSnackbarStore } from "./snackbar";
-// const { openSnackbar } = useSnackbarStore();
+import { useSnackbarStore } from "./snackbar";
 
 export const useArticleStore = defineStore("article", () => {
+  const { openSnackbar } = useSnackbarStore();
   const entities = ref<{
     articles: Array<Article> | [];
     articlesCount: number;
-  } | null>(null);
+  }>({
+    articles: [],
+    articlesCount: 0,
+  });
   const loading = ref<boolean>(false);
   async function getAll(feed: boolean, offset: number, limit: number) {
-    entities.value = null;
+    entities.value = {
+      articles: [],
+      articlesCount: 0,
+    };
     loading.value = true;
-    try {
-      const { data } = await ArticleDataService.getAll(feed, offset, limit);
-      entities.value = data;
-    } catch (e: any) {
-      console.log(e);
-      // openSnackbar({ text: e?.response?.message });
-      alert(e?.response?.data?.message);
-    } finally {
-      loading.value = false;
-    }
+    // eslint-disable-next-line no-async-promise-executor
+    return new Promise(async (resolve, reject) => {
+      try {
+        const { data } = await ArticleDataService.getAll(feed, offset, limit);
+        entities.value = data;
+        resolve(data);
+      } catch (e: any) {
+        console.log(e);
+        if (e?.response?.message) {
+          openSnackbar({ text: e?.response?.message });
+        }
+        reject(e);
+      } finally {
+        loading.value = false;
+      }
+    });
   }
   return {
     entities,

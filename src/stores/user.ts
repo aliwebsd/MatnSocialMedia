@@ -8,11 +8,11 @@ export const useUserStore = defineStore("user", () => {
   const user = ref<User | null>(UserDataService.getStorage());
   const isAuthorized = computed(() => user.value !== null);
   const router = useRouter();
-  const update = async (userData: User) => {
-    // if (userData) {
-    //   const { data } = await UserDataService.update(userData);
-    //   user.value = userData;
-    // }
+  const update = async (userData: { user: User }) => {
+    if (userData) {
+      const { data } = await UserDataService.update(userData);
+      user.value = data.user;
+    }
   };
   interface Login {
     user: {

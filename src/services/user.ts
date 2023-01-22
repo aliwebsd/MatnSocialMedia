@@ -14,11 +14,11 @@ class UserDataService {
     return http.get(`/users/${id}`);
   }
 
-  create(data: any): Promise<User> {
+  create(data: { user: User }): Promise<User> {
     return http.post("/users", data);
   }
 
-  update(data: any): Promise<User> {
+  update(data: { user: User }): Promise<{ data: { user: User } }> {
     return http.put("/user", data);
   }
 

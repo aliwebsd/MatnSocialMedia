@@ -44,19 +44,19 @@
         </v-list-item>
         <v-list-item class="w-100">
           <div class="w-100 d-flex justify-space-between">
-            <v-btn
+            <router-link
               variant="text"
               color="teal-accent-4"
-              :href="`article/${props.article.slug}`"
+              :to="`article/${props.article.slug}`"
             >
               Read more...
-            </v-btn>
+            </router-link>
             <div class="d-flex">
               <v-btn
                 class="ms-2"
                 variant="outlined"
                 size="small"
-                :href="`article/${props.article.slug}`"
+                :to="`article/${props.article.slug}`"
                 v-for="tag in props.article.tagList"
                 :key="tag"
               >

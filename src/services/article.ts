@@ -1,4 +1,4 @@
-import { Article } from "@/types";
+import { Article, ArticleForm } from "@/types";
 import http from "./http-common";
 
 class ArticleDataService {
@@ -17,11 +17,13 @@ class ArticleDataService {
     );
   }
 
-  get(id: any): Promise<any> {
-    return http.get(`/articles/${id}`);
+  get(slug: string): Promise<{ data: { article: Article } }> {
+    return http.get(`/articles/${slug}`);
   }
 
-  create(data: any): Promise<any> {
+  create(data: {
+    article: ArticleForm;
+  }): Promise<{ data: { article: Article } }> {
     return http.post("/articles", data);
   }
 
@@ -39,6 +41,32 @@ class ArticleDataService {
 
   findByTitle(title: string): Promise<any> {
     return http.get(`/articles?title=${title}`);
+  }
+
+  getTags(): Promise<{ data: { tags: string[] } }> {
+    return http.get("/tags");
+  }
+
+  postComment(slug: string, data: string): Promise<any> {
+    return http.post(`/articles/${slug}/comments`, {
+      comment: { body: data },
+    });
+  }
+
+  deleteComment(slug: string, id: number): Promise<any> {
+    return http.delete(`/articles/${slug}/comments/${id}`);
+  }
+
+  getComments(slug: string): Promise<any> {
+    return http.get(`/articles/${slug}/comments`);
+  }
+
+  favorite(slug: string, isFav: boolean): Promise<any> {
+    if (isFav) {
+      return http.post(`/articles/${slug}/favorite`);
+    } else {
+      return http.delete(`/articles/${slug}/favorite`);
+    }
   }
 }
 

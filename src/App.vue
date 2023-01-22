@@ -1,23 +1,29 @@
 <template>
   <div>
     <v-toolbar dark prominent>
-      <!-- image="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg" -->
-      <v-toolbar-title>Matn Social</v-toolbar-title>
-
-      <v-spacer></v-spacer>
-      <nav class="d-flex" style="gap: 10px">
-        <router-link to="/">Home</router-link>
-        <router-link to="/login" v-if="!isAuthorized">Sign in</router-link>
-        <router-link to="/editor" v-if="isAuthorized">New Article</router-link>
-        <router-link to="/settings" v-if="isAuthorized">Settings</router-link>
-        <router-link to="/register" v-if="!isAuthorized">Sign up</router-link>
-        <router-link :to="`/@${user?.username}`" v-if="isAuthorized">{{
-          user?.username
-        }}</router-link>
-      </nav>
-      <v-btn icon>
-        <v-icon>mdi-export</v-icon>
-      </v-btn>
+      <v-container>
+        <v-row no-gutters align="center">
+          <!-- image="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg" -->
+          <v-toolbar-title>Matn Social</v-toolbar-title>
+          <v-spacer></v-spacer>
+          <nav class="d-flex" style="gap: 10px">
+            <router-link to="/">Home</router-link>
+            <router-link to="/login" v-if="!isAuthorized">Sign in</router-link>
+            <router-link to="/article/create" v-if="isAuthorized"
+              >New Article</router-link
+            >
+            <router-link to="/settings" v-if="isAuthorized"
+              >Settings</router-link
+            >
+            <router-link to="/register" v-if="!isAuthorized"
+              >Sign up</router-link
+            >
+            <router-link :to="`/@${user?.username}`" v-if="isAuthorized">{{
+              user?.username
+            }}</router-link>
+          </nav>
+        </v-row>
+      </v-container>
     </v-toolbar>
   </div>
   <router-view />
@@ -37,6 +43,9 @@ const { isAuthorized, user } = storeToRefs(useUserStore());
 const { closeSnackbar } = useSnackbarStore();
 </script>
 <style lang="scss">
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
