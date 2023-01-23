@@ -29,7 +29,7 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-col class="d-flex justify-end">
+          <v-col class="d-flex justify-end" v-if="isAuthorized">
             <v-btn
               @click="editProfleSetting"
               class="text-secodary-600 border-secodary-600"
@@ -37,9 +37,48 @@
               size="small"
               color="#999"
               prepend-icon="mdi-cog"
+              v-if="user.username === profile.username"
               >Edit profile settings</v-btn
             >
+            <v-btn
+              class="text-secodary-600 border-secodary-600"
+              @click="setFollowAuthor(true)"
+              color="#999"
+              variant="tonal"
+              size="small"
+              prepend-icon="mdi-minus"
+              :loading="followLoading"
+              :disabled="followLoading"
+              v-if="profile.following && user.username !== profile.username"
+              >unFollow {{ profile.username }}</v-btn
+            >
+            <v-btn
+              @click="setFollowAuthor(false)"
+              class="text-secodary-600 border-secodary-600"
+              variant="outlined"
+              size="small"
+              color="#999"
+              prepend-icon="mdi-plus"
+              :loading="followLoading"
+              :disabled="followLoading"
+              v-else-if="user.username !== profile.username"
+              >Follow {{ profile.username }}</v-btn
+            >
           </v-col>
+        </v-row>
+      </v-container>
+    </div>
+    <div v-else-if="getProfileLoading">
+      <v-container>
+        <v-row>
+          <v-col>Profile is loading...</v-col>
+        </v-row>
+      </v-container>
+    </div>
+    <div v-else>
+      <v-container>
+        <v-row>
+          <v-col>Profile not found!</v-col>
         </v-row>
       </v-container>
     </div>
@@ -65,12 +104,15 @@ import { useRoute, useRouter } from "vue-router";
 import { useProfile } from "@/composables/useProfile";
 import ArticleTabs from "@/components/ArticleTabs.vue";
 import { ArticleTabHeader } from "@/types";
+import { useUserStore } from "@/stores/user";
 import { useArticleStore } from "@/stores/article";
 import { storeToRefs } from "pinia";
 
+const { user, isAuthorized } = storeToRefs(useUserStore());
 const route = useRoute();
 const router = useRouter();
-const { getProfile, profile, getProfileLoading } = useProfile();
+const { getProfile, profile, getProfileLoading, follow, followLoading } =
+  useProfile();
 const { username } = route.params;
 getProfile(username);
 function editProfleSetting() {
@@ -83,4 +125,12 @@ const tabs = ref<ArticleTabHeader[]>([
   { id: `?author=${username}`, txt: "My articles" },
   { id: `?favorited=${username}`, txt: "Favorited Articles" },
 ]);
+const setFollowAuthor = async (isFollowing: boolean) => {
+  if (profile.value) {
+    profile.value.following = (await follow(
+      profile.value.username,
+      isFollowing
+    )) as boolean;
+  }
+};
 </script>
