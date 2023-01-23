@@ -1,14 +1,11 @@
 <template>
-  <v-card
-    class="mx-auto"
-    prepend-icon="mdi-twitter"
-    :title="props.article.title"
-  >
-    <template v-slot:prepend>
+  <v-card class="mx-auto" :title="props.article.title">
+    <!-- prepend-icon="mdi-twitter" -->
+    <!-- <template v-slot:prepend>
       <v-icon size="x-large"></v-icon>
-    </template>
+    </template> -->
 
-    <v-card-text class="text-h5 py-2 text-left">
+    <v-card-text class="py-2 text-left">
       {{ props.article.description }}
     </v-card-text>
 
@@ -19,6 +16,7 @@
             <v-avatar
               color="grey-darken-3"
               :image="props.article.author.image"
+              size="small"
             ></v-avatar>
           </template>
 

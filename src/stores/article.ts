@@ -14,7 +14,7 @@ export const useArticleStore = defineStore("article", () => {
     articlesCount: 0,
   });
   const loading = ref<boolean>(false);
-  async function getAll(feed: boolean, offset: number, limit: number) {
+  async function getAll(feed: string, offset: number, limit: number) {
     entities.value = {
       articles: [],
       articlesCount: 0,

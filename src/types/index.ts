@@ -41,3 +41,9 @@ export interface Comment {
   body: string;
   author: Profile;
 }
+
+export interface ArticleTabHeader {
+  id: string;
+  txt: string;
+  requiresAuth?: boolean;
+}

@@ -3,7 +3,7 @@ import http from "./http-common";
 
 class ArticleDataService {
   getAll(
-    feed = false,
+    feed: string,
     offset = 0,
     limit = 10
   ): Promise<{
@@ -12,9 +12,7 @@ class ArticleDataService {
       articlesCount: number;
     };
   }> {
-    return http.get(
-      `/articles${feed ? "/feed" : ""}?limit=${limit}&offset=${offset}`
-    );
+    return http.get(`/articles/${feed}?limit=${limit}&offset=${offset}`);
   }
 
   get(slug: string): Promise<{ data: { article: Article } }> {
@@ -31,8 +29,8 @@ class ArticleDataService {
     return http.put(`/articles/${id}`, data);
   }
 
-  delete(id: any): Promise<any> {
-    return http.delete(`/articles/${id}`);
+  delete(slug: string): Promise<any> {
+    return http.delete(`/articles/${slug}`);
   }
 
   deleteAll(): Promise<any> {

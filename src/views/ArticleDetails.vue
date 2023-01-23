@@ -87,7 +87,7 @@
                     >Edit Article</v-btn
                   >
                   <v-btn
-                    @click="deleteArticle(article.slug)"
+                    @click="deleteArticle(article.slug, '/')"
                     class="text-red-600 border-red-600 hover:bg-red-600 hover:text-white"
                     variant="outlined"
                     size="small"
@@ -247,7 +247,7 @@ const commentsloading = ref<boolean>(false);
 const newComment = ref<string>("");
 const createCommentLoading = ref<boolean>(false);
 const deleteCommentLoading = ref<{ [key: number]: boolean }>({});
-const { getArticle, article, getArticleLoading } = useArticle();
+const { getArticle, article, getArticleLoading, deleteArticle } = useArticle();
 const { follow, followLoading } = useProfile();
 const state = reactive<{ comments: Comment[] }>({
   comments: [],
