@@ -3,7 +3,7 @@
     <v-row no-gutters align="center" justify="center">
       <v-col cols="5">
         <div class="d-flex flex-column align-center justify-center pb-4">
-          <h1>Sign in</h1>
+          <h2 class="text-h4">Sign in</h2>
           <router-link to="/register">Need an account?</router-link>
         </div>
         <ul class="error-messages">
@@ -26,7 +26,13 @@
           ></v-text-field>
           <v-row>
             <v-spacer />
-            <v-btn color="primary" class="me-4" @click="submit">
+            <v-btn
+              color="primary"
+              class="me-4"
+              @click="submit"
+              :loading="loading"
+              :disable="loading"
+            >
               Sign in
             </v-btn>
           </v-row>
@@ -40,6 +46,7 @@ import { reactive, ref } from "vue";
 import { useUserStore } from "@/stores/user";
 const { login } = useUserStore();
 const valid = ref(false);
+const loading = ref(false);
 const user = reactive({
   title: "",
   password: "",
@@ -54,9 +61,12 @@ const rules = reactive({
 const submit = async () => {
   errors.value = {};
   try {
+    loading.value = true;
     await login({ user });
   } catch (e) {
     errors.value = e.response.data?.errors;
+  } finally {
+    loading.value = false;
   }
 };
 </script>

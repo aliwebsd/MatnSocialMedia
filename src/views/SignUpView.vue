@@ -3,7 +3,7 @@
     <v-row no-gutters align="center" justify="center">
       <v-col cols="5">
         <div class="d-flex flex-column align-center justify-center pb-4">
-          <h1>Sign up</h1>
+          <h2 class="text-h4">Sign up</h2>
           <router-link to="/login">Have an account?</router-link>
         </div>
         <v-form ref="form" v-model="valid" lazy-validation>
@@ -25,16 +25,15 @@
             label="Password"
             required
           ></v-text-field>
-          <v-checkbox
-            v-model="checkbox"
-            :rules="[(v) => !!v || 'You must agree to continue!']"
-            label="Do you agree?"
-            required
-          ></v-checkbox>
-
           <v-row>
             <v-spacer />
-            <v-btn color="primary" class="me-4" @click="submit">
+            <v-btn
+              color="primary"
+              class="me-4"
+              :loading="loading"
+              :disable="loading"
+              @click="submit"
+            >
               Sign up
             </v-btn>
           </v-row>
@@ -47,7 +46,7 @@
 import { reactive, ref } from "vue";
 import UserDataService from "../services/user";
 const valid = ref(false);
-const checkbox = ref(false);
+const loading = ref(false);
 const user = reactive({
   username: "",
   email: "",
@@ -60,8 +59,13 @@ const rules = reactive({
   ],
 });
 const submit = async () => {
-  console.log(user);
-  const { data } = await UserDataService.create({ user });
-  console.log(data);
+  try {
+    loading.value = true;
+    await UserDataService.create({ user });
+  } catch (e) {
+    console.log(e);
+  } finally {
+    loading.value = false;
+  }
 };
 </script>
