@@ -32,6 +32,7 @@
                     color="gray"
                     variant="tonal"
                     size="small"
+                    prepend-icon="mdi-minus"
                     :loading="followLoading"
                     :disabled="followLoading"
                     v-if="
@@ -39,7 +40,7 @@
                       article.author.following &&
                       user.username !== article.author.username
                     "
-                    >- unFollow {{ article.author.username }}</v-btn
+                    >unFollow {{ article.author.username }}</v-btn
                   >
                   <v-btn
                     @click="setFollowAuthor(false)"
