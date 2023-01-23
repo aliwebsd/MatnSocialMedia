@@ -5,6 +5,7 @@ import SignIn from "../views/SignInView.vue";
 import ArticleForm from "../views/ArticleForm.vue";
 import ArticleDetails from "../views/ArticleDetails.vue";
 import ProfileView from "../views/ProfileView.vue";
+import SettingsView from "../views/SettingsView.vue";
 import NotFound from "../views/NotFoundView.vue";
 import UserDataService from "@/services/user";
 
@@ -51,9 +52,14 @@ const routes: Array<RouteRecordRaw> = [
     component: ArticleDetails,
   },
   {
-    path: "/@:username",
+    path: "/profile/:username",
     name: "Profile",
     component: ProfileView,
+  },
+  {
+    path: "/settings",
+    name: "Settings",
+    component: SettingsView,
     meta: { requiresAuth: true },
   },
   {
