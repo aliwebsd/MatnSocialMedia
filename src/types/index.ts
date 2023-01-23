@@ -5,6 +5,13 @@ export interface User {
   bio: string;
   image: string;
 }
+export interface UserSetting {
+  email: string;
+  username: string;
+  bio: string;
+  image: string;
+  password: string;
+}
 export interface Profile {
   username: string;
   bio: string;
