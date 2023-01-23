@@ -1,4 +1,4 @@
-import { User } from "@/types";
+import { User, UserSetting } from "@/types";
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
 import UserDataService from "@/services/user";
@@ -7,12 +7,29 @@ import { useRouter, useRoute } from "vue-router";
 export const useUserStore = defineStore("user", () => {
   const user = ref<User | null>(UserDataService.getStorage());
   const isAuthorized = computed(() => user.value !== null);
+  const userUpdateLoading = ref<boolean>(false);
   const router = useRouter();
   const route = useRoute();
-  const update = async (userData: { user: User }) => {
-    if (userData) {
-      const { data } = await UserDataService.update(userData);
-      user.value = data.user;
+  const update = async (userSetting: UserSetting) => {
+    if (userSetting) {
+      try {
+        userUpdateLoading.value = true;
+        const { data } = await UserDataService.update(userSetting);
+        if (user.value) {
+          const newUserData = {
+            email: data.user.email,
+            token: user.value.token,
+            username: data.user.username,
+            bio: data.user.bio,
+            image: data.user.image,
+          };
+          user.value = newUserData;
+        }
+      } catch (e) {
+        console.log(e);
+      } finally {
+        userUpdateLoading.value = false;
+      }
     }
   };
   interface Login {
@@ -43,10 +60,17 @@ export const useUserStore = defineStore("user", () => {
       });
     }
   };
+  const logout = () => {
+    user.value = null;
+    UserDataService.logout();
+    router.replace("/");
+  };
   return {
     user,
     isAuthorized,
     update,
     login,
+    userUpdateLoading,
+    logout,
   };
 });
