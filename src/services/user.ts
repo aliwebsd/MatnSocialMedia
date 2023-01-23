@@ -1,9 +1,13 @@
 import http from "./http-common";
-import { User } from "@/types";
+import { User, UserSetting } from "@/types";
 
 class UserDataService {
   login(data: { user: { email: string; password: string } }): Promise<unknown> {
     return http.post("/users/login", data);
+  }
+
+  logout() {
+    localStorage.removeItem("user");
   }
 
   getAll(): Promise<any> {
@@ -18,8 +22,8 @@ class UserDataService {
     return http.post("/users", data);
   }
 
-  update(data: { user: User }): Promise<{ data: { user: User } }> {
-    return http.put("/user", data);
+  update(user: UserSetting): Promise<{ data: { user: UserSetting } }> {
+    return http.put("/user", { user });
   }
 
   delete(id: any): Promise<any> {
