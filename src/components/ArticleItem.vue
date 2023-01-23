@@ -13,18 +13,22 @@
       <v-list class="w-100" lines="one">
         <v-list-item class="w-100">
           <template v-slot:prepend>
-            <v-avatar
-              color="grey-darken-3"
-              :image="props.article.author.image"
-              size="small"
-            ></v-avatar>
+            <router-link :to="`/profile/${props.article.author.username}`">
+              <v-avatar
+                color="grey-darken-3"
+                :image="props.article.author.image"
+                size="small"
+              ></v-avatar>
+            </router-link>
           </template>
 
-          <v-list-item-title class="text-left">{{
-            props.article.author.username
-          }}</v-list-item-title>
+          <v-list-item-title class="text-left pl-4">
+            <router-link :to="`/profile/${props.article.author.username}`">
+              {{ props.article.author.username }}
+            </router-link></v-list-item-title
+          >
 
-          <v-list-item-subtitle class="text-left">{{
+          <v-list-item-subtitle class="text-left pl-4">{{
             props.article.createdAt
           }}</v-list-item-subtitle>
 
