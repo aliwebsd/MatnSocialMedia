@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row no-gutters align="center" justify="center">
-      <v-col cols="5">
+      <v-col cols="12" md="10" lg="8" xl="5">
         <ul class="error-messages">
           <li v-for="(error, field) in errors" :key="field">
             {{ field }} {{ error ? error[0] : "" }}
@@ -63,7 +63,7 @@
   </v-container>
 </template>
 <script setup lang="ts">
-import { reactive, ref, watch } from "vue";
+import { reactive, ref, watch, onMounted } from "vue";
 import ArticleDataService from "@/services/article";
 import { ArticleForm } from "@/types";
 import { useSnackbarStore } from "@/stores/snackbar";
@@ -80,10 +80,10 @@ const article = reactive<ArticleForm>({
 });
 const route = useRoute();
 const router = useRouter();
-const formRef = ref();
+const formRef = ref<HTMLInputElement | null>(null);
 const errors = ref();
 const loading = ref<boolean>(false);
-const { getArticle, article: articleItem, getArticleLoading } = useArticle();
+const { getArticle, article: articleItem } = useArticle();
 const rules = reactive({
   required: [(v: string) => !!v || "Field is required"],
 });
@@ -105,15 +105,16 @@ const submit = async () => {
     loading.value = false;
   }
 };
-
-watch(articleItem, (item: Article) => {
-  if (item) {
-    article.title = item.title;
-    article.description = item.description;
-    article.tagList = item.tagList;
-    article.body = item.body;
-    // setTimeout(() => formRef.value.validate());
-  }
+onMounted(() => {
+  watch(articleItem, (item: Article) => {
+    if (item) {
+      article.title = item.title;
+      article.description = item.description;
+      article.tagList = item.tagList;
+      article.body = item.body;
+      formRef.value?.validate();
+    }
+  });
 });
 
 //Get Article For Edit
