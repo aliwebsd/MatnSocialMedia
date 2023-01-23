@@ -2,12 +2,13 @@ import { User } from "@/types";
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
 import UserDataService from "@/services/user";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 
 export const useUserStore = defineStore("user", () => {
   const user = ref<User | null>(UserDataService.getStorage());
   const isAuthorized = computed(() => user.value !== null);
   const router = useRouter();
+  const route = useRoute();
   const update = async (userData: { user: User }) => {
     if (userData) {
       const { data } = await UserDataService.update(userData);
@@ -30,12 +31,10 @@ export const useUserStore = defineStore("user", () => {
           const { data } = (await UserDataService.login(login)) as {
             data: { user: User };
           };
-          console.log(data);
-          debugger;
           UserDataService.setStorage(data.user);
           user.value = data.user;
           resolve(data.user);
-          router.push("/");
+          router.push((route.query.redirect as string) ?? "/");
         } catch (e: any) {
           reject(e);
         } finally {
