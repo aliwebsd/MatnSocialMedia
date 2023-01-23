@@ -1,5 +1,5 @@
 <template>
-  <v-card width="400">
+  <v-card width="100%">
     <template v-slot:title> Popular Tags </template>
     <template v-slot:text>
       <div class="d-flex flex-wrap gap-2">

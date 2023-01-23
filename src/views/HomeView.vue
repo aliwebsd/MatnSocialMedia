@@ -1,16 +1,16 @@
 <template>
   <v-container>
-    <v-row no-gutters class="gap-4">
-      <v-col>
+    <div class="d-flex flex-wrap flex-col-reverse md:flex-row">
+      <div class="basis-full md:basis-8/12 p-2">
         <ArticleTabs
           :headers="tabs"
           :content="entities"
           :loading="loading"
           @change="getAll"
         />
-      </v-col>
-      <v-col cols="3"> <TagList /> </v-col>
-    </v-row>
+      </div>
+      <div class="basis-full md:basis-4/12 p-2"><TagList /></div>
+    </div>
   </v-container>
 </template>
 <script setup lang="ts">

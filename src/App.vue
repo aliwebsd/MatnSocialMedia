@@ -2,7 +2,7 @@
   <div>
     <v-toolbar dark prominent>
       <v-container>
-        <v-row no-gutters align="center">
+        <div class="flex flex-row flex-wrap items-center px-2">
           <!-- image="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg" -->
           <v-toolbar-title>
             <router-link to="/">Matn Social</router-link>
@@ -20,11 +20,13 @@
             <router-link to="/register" v-if="!isAuthorized"
               >Sign up</router-link
             >
-            <router-link :to="`/@${user?.username}`" v-if="isAuthorized">{{
-              user?.username
-            }}</router-link>
+            <router-link
+              :to="`/profile/${user?.username}`"
+              v-if="isAuthorized"
+              >{{ user?.username }}</router-link
+            >
           </nav>
-        </v-row>
+        </div>
       </v-container>
     </v-toolbar>
   </div>
@@ -57,8 +59,6 @@ const { closeSnackbar } = useSnackbarStore();
 }
 
 nav {
-  padding: 30px;
-
   a {
     font-weight: bold;
     color: #2c3e50;
