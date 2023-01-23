@@ -4,7 +4,9 @@
       <v-container>
         <v-row no-gutters align="center">
           <!-- image="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg" -->
-          <v-toolbar-title>Matn Social</v-toolbar-title>
+          <v-toolbar-title>
+            <router-link to="/">Matn Social</router-link>
+          </v-toolbar-title>
           <v-spacer></v-spacer>
           <nav class="d-flex" style="gap: 10px">
             <router-link to="/">Home</router-link>
@@ -51,7 +53,7 @@ const { closeSnackbar } = useSnackbarStore();
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: left;
-  color: #2c3e50;
+  color: #373a3c;
 }
 
 nav {
