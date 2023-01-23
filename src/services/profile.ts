@@ -12,6 +12,9 @@ class ProfileDataService {
       return http.post(`/profiles/${username}/follow`);
     }
   }
+  profile(username: string) {
+    return http.get(`/profiles/${username}`);
+  }
 }
 
 export default new ProfileDataService();

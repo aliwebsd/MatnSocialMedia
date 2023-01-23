@@ -1,6 +1,7 @@
 import { ref } from "vue";
 import ProfileDataService from "@/services/profile";
 import { useSnackbarStore } from "@/stores/snackbar";
+import { Profile } from "@/types";
 
 export function useProfile() {
   const { openSnackbar } = useSnackbarStore();
@@ -25,8 +26,24 @@ export function useProfile() {
       }
     });
   }
+
+  const profile = ref<Profile>();
+  const getProfileLoading = ref<boolean>(false);
+  async function getProfile(username: string) {
+    try {
+      getProfileLoading.value = true;
+      profile.value = (await ProfileDataService.profile(username)).data.profile;
+    } catch (e) {
+      console.log(e);
+    } finally {
+      getProfileLoading.value = false;
+    }
+  }
   return {
     follow,
     followLoading,
+    getProfile,
+    profile,
+    getProfileLoading,
   };
 }
