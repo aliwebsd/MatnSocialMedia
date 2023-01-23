@@ -45,6 +45,10 @@ class UserDataService {
       return null;
     }
   }
+
+  isAuthorized() {
+    return !!localStorage.getItem("user");
+  }
 }
 
 export default new UserDataService();

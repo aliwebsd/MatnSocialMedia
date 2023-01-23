@@ -3,9 +3,10 @@ import HomeView from "../views/HomeView.vue";
 import SignUp from "../views/SignUpView.vue";
 import SignIn from "../views/SignInView.vue";
 import ArticleForm from "../views/ArticleForm.vue";
-import ArticleSingle from "../views/ArticleDetails.vue";
+import ArticleDetails from "../views/ArticleDetails.vue";
 import ProfileView from "../views/ProfileView.vue";
 import NotFound from "../views/NotFoundView.vue";
+import UserDataService from "@/services/user";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -33,24 +34,27 @@ const routes: Array<RouteRecordRaw> = [
     component: SignIn,
   },
   {
-    path: "/article/create",
-    name: "ArticleForm",
+    path: "/article/:slug/edit",
+    name: "ArticleFormEdit",
     component: ArticleForm,
+    meta: { requiresAuth: true },
   },
   {
-    path: "/article/:slug/edit",
-    name: "ArticleForm",
+    path: "/article/create",
+    name: "ArticleFormCreate",
     component: ArticleForm,
+    meta: { requiresAuth: true },
   },
   {
     path: "/article/:slug",
-    name: "ArticleSingle",
-    component: ArticleSingle,
+    name: "ArticleDetails",
+    component: ArticleDetails,
   },
   {
     path: "/@:username",
     name: "Profile",
     component: ProfileView,
+    meta: { requiresAuth: true },
   },
   {
     path: "/:pathMatch(.*)*",
@@ -62,6 +66,20 @@ const routes: Array<RouteRecordRaw> = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+});
+
+router.beforeEach((to) => {
+  // instead of having to check every route record with
+  // to.matched.some(record => record.meta.requiresAuth)
+  if (to.meta.requiresAuth && !UserDataService.isAuthorized()) {
+    // this route requires auth, check if logged in
+    // if not, redirect to login page.
+    return {
+      path: "/login",
+      // save the location we were at to come back later
+      query: { redirect: to.fullPath },
+    };
+  }
 });
 
 export default router;
